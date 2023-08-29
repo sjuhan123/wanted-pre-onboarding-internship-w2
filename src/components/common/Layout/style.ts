@@ -6,6 +6,7 @@ export const LayoutBox = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
+  width: 100vw;
 
   header {
     display: flex;
@@ -13,6 +14,7 @@ export const LayoutBox = styled.div`
     align-items: center;
     font-size: 2rem;
     font-weight: bold;
+    margin: 1rem;
     cursor: pointer;
   }
 
@@ -22,5 +24,6 @@ export const LayoutBox = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    width: 100%;
   }
 `;

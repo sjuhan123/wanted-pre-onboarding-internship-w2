@@ -11,7 +11,7 @@ const IssueListContext = createContext<IssueListContext | undefined>(undefined);
 
 type IssueListAction =
   | { type: typeof ISSUE_LIST.SET; payload: TIssueList }
-  | { type: typeof ISSUE_LIST.ADD; payload: IIssue }
+  | { type: typeof ISSUE_LIST.ADD; payload: TIssueList }
   | { type: typeof ISSUE_LIST.RESET };
 
 const IssueListReducer = (state: TIssueList, action: IssueListAction): TIssueList => {
@@ -19,7 +19,7 @@ const IssueListReducer = (state: TIssueList, action: IssueListAction): TIssueLis
     case ISSUE_LIST.SET:
       return action.payload;
     case ISSUE_LIST.ADD:
-      return [...state, action.payload];
+      return [...state, ...action.payload];
     case ISSUE_LIST.RESET:
       return [];
     default:

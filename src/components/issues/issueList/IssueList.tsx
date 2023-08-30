@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIssueListContext } from '../../../context/IssueListContext';
+import AdImage from '../adImage/AdImage';
 import IssueItem from '../issueItem/IssueItem';
 import * as S from './style';
 
-export default function IssueList() {
+const IssueList = () => {
   const navigate = useNavigate();
   const { state } = useIssueListContext();
 
@@ -15,19 +16,23 @@ export default function IssueList() {
   return (
     <S.IssueListBox>
       {state &&
-        state.map(({ number, title, user: { login }, created_at, comments }) => {
+        state.map(({ number, title, user: { login }, created_at, comments }, index) => {
           return (
-            <IssueItem
-              key={number}
-              number={number}
-              title={title}
-              author={login}
-              createdAt={created_at}
-              comments={comments}
-              onClick={() => redirectIssueDetail(number)}
-            />
+            <React.Fragment key={index}>
+              <IssueItem
+                number={number}
+                title={title}
+                author={login}
+                createdAt={created_at}
+                comments={comments}
+                onClick={() => redirectIssueDetail(number)}
+              />
+              {(index + 1) % 5 === 0 && <AdImage />}
+            </React.Fragment>
           );
         })}
     </S.IssueListBox>
   );
-}
+};
+
+export default IssueList;

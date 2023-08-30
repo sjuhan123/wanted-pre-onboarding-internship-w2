@@ -1,10 +1,10 @@
-import React, { createContext, useContext } from 'react';
-import { IRepo } from '../types';
+import React, { createContext, useContext, useReducer } from 'react';
+import { IRepoInfo } from '../types';
 
-type IRepoAction = { type: 'SET_REPO'; payload: IRepo } | { type: 'RESET_REPO' };
+type IRepoAction = { type: 'SET_REPO'; payload: IRepoInfo } | { type: 'RESET_REPO' };
 
 interface IRepoContext {
-  state: IRepo;
+  state: IRepoInfo;
   dispatch: React.Dispatch<IRepoAction>;
 }
 
@@ -15,19 +15,19 @@ const initialState = {
 
 const RepoContext = createContext<IRepoContext | undefined>(undefined);
 
-const repoReducer = (state: IRepo, action: IRepoAction) => {
+const repoReducer = (state: IRepoInfo, action: IRepoAction) => {
   switch (action.type) {
     case 'SET_REPO':
       return action.payload;
     case 'RESET_REPO':
-      return initialState;
+      return state;
     default:
       throw new Error('Unhandled action');
   }
 };
 
 export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = React.useReducer(repoReducer, initialState);
+  const [state, dispatch] = useReducer(repoReducer, initialState);
 
   return <RepoContext.Provider value={{ state, dispatch }}>{children}</RepoContext.Provider>;
 };

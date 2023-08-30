@@ -7,6 +7,24 @@ export const MainBox = styled.div`
   justify-content: center;
   position: fixed;
   gap: 0.5rem;
+  width: 100%;
+
+  > input {
+    width: 20%;
+    height: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+
+  > button {
+    width: 20%;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
 `;
 
 const shakeAnimation = keyframes`

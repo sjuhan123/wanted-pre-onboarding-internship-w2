@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import { ISSUE_LIST } from '../constants';
 import { IIssue, TIssueList } from '../types/issue';
 
 interface IssueListContext {
@@ -9,17 +10,17 @@ interface IssueListContext {
 const IssueListContext = createContext<IssueListContext | undefined>(undefined);
 
 type IssueListAction =
-  | { type: 'SET_ISSUE_LIST'; payload: TIssueList }
-  | { type: 'ADD_ISSUE'; payload: IIssue }
-  | { type: 'RESET_ISSUE_LIST' };
+  | { type: typeof ISSUE_LIST.SET; payload: TIssueList }
+  | { type: typeof ISSUE_LIST.ADD; payload: IIssue }
+  | { type: typeof ISSUE_LIST.RESET };
 
 const IssueListReducer = (state: TIssueList, action: IssueListAction): TIssueList => {
   switch (action.type) {
-    case 'SET_ISSUE_LIST':
+    case ISSUE_LIST.SET:
       return action.payload;
-    case 'ADD_ISSUE':
+    case ISSUE_LIST.ADD:
       return [...state, action.payload];
-    case 'RESET_ISSUE_LIST':
+    case ISSUE_LIST.RESET:
       return [];
     default:
       throw new Error('Unhandled action');

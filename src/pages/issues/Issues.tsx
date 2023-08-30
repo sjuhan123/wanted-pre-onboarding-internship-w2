@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import IssueList from '../../components/issues/issueList/IssueList';
-import { STATUS, URL } from '../../constants';
+import { ISSUE_LIST, STATUS, URL } from '../../constants';
 import { useIssueListContext } from '../../context/IssueListContext';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
@@ -30,7 +30,7 @@ export default function Issues() {
 
   useEffect(() => {
     if (data && status === STATUS.SUCCESS) {
-      dispatch({ type: 'SET_ISSUE_LIST', payload: [...data] });
+      dispatch({ type: ISSUE_LIST.SET, payload: [...data] });
     }
   }, [data]);
 

@@ -1,3 +1,9 @@
+export const ISSUE_LIST = {
+  SET: 'SET_ISSUE_LIST',
+  ADD: 'ADD_ISSUE_LIST',
+  RESET: 'RESET_ISSUE_LIST',
+} as const;
+
 export const STATUS = {
   IDLE: 'IDLE',
   LOADING: 'LOADING',

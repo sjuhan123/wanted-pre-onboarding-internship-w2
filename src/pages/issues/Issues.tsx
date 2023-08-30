@@ -12,15 +12,15 @@ import { TIssueList } from '../../types/issue';
 export default function Issues() {
   const navigate = useNavigate();
   const {
-    state: { organization, repository },
+    state: { owner, repo },
   } = useRepoContext();
   const { dispatch } = useIssueListContext();
 
   const { data, status } = useOctokit<TIssueList>(
-    `/repos/${organization}/${repository}/issues?per_page=10&sort=comments`,
+    `/repos/${owner}/${repo}/issues?per_page=10&sort=comments`,
     {
-      owner: organization,
-      repo: repository,
+      owner: owner,
+      repo: repo,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
@@ -35,16 +35,16 @@ export default function Issues() {
   }, [data]);
 
   useEffect(() => {
-    if (!organization || !repository) {
+    if (!owner || !repo) {
       navigate(URL.Main);
     }
-  }, [organization, repository]);
+  }, [owner, repo]);
 
   return (
     <Layout
       buttonName='홈'
       buttonOnClick={() => navigate(URL.Main)}
-      title={`${organization}/${repository}`}
+      title={`${owner}/${repo}`}
       titleOnClick={() => window.location.reload()}
     >
       {status === STATUS.LOADING ? <Spinner type='page' /> : <IssueList />}

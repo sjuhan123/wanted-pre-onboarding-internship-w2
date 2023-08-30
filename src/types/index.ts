@@ -1,4 +1,4 @@
 export interface IRepoInfo {
-  organization: string;
-  repository: string;
+  owner: string;
+  repo: string;
 }

@@ -13,7 +13,7 @@ export default function Main() {
   const navigate = useNavigate();
   const { data, status, requestOctokit } = useOctokit<IRepoResponse>();
   const { setRepoInfo } = useRepoContext();
-  const [values, setValues] = useState({ organization: '', repository: '' });
+  const [values, setValues] = useState({ owner: '', repo: '' });
 
   const setInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,10 +22,10 @@ export default function Main() {
 
   const validateRepo = () => {
     requestOctokit({
-      endpoint: `GET /repos/${values.organization}/${values.repository}`,
+      endpoint: `GET /repos/${values.owner}/${values.repo}`,
       body: {
-        owner: values.organization,
-        repo: values.repository,
+        owner: values.owner,
+        repo: values.repo,
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -37,8 +37,8 @@ export default function Main() {
   useEffect(() => {
     if (data && status === STATUS.SUCCESS) {
       const repoInfo = {
-        organization: data.owner.login,
-        repository: data.name,
+        owner: data.owner.login,
+        repo: data.name,
       };
 
       setRepoInfo(repoInfo);
@@ -49,13 +49,8 @@ export default function Main() {
   return (
     <Layout title='Issues'>
       <S.MainBox>
-        <input
-          type='text'
-          placeholder='organization'
-          name='organization'
-          onChange={setInputValue}
-        />
-        <input type='text' placeholder='repository' name='repository' onChange={setInputValue} />
+        <input type='text' placeholder='organization' name='owner' onChange={setInputValue} />
+        <input type='text' placeholder='repository' name='repo' onChange={setInputValue} />
         <Button
           buttonContent={status === STATUS.LOADING ? <Spinner type='button' /> : '이슈 보러가기'}
           type='primary'

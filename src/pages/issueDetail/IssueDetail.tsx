@@ -12,14 +12,14 @@ export default function IssueDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const {
-    state: { organization, repository },
+    state: { owner, repo },
   } = useRepoContext();
 
   const { data: details, status } = useOctokit<IIssueDetail>(
-    `/repos/${organization}/${repository}/issues/${id}`,
+    `/repos/${owner}/${repo}/issues/${id}`,
     {
-      owner: organization,
-      repo: repository,
+      owner: owner,
+      repo: repo,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
@@ -28,16 +28,16 @@ export default function IssueDetail() {
   );
 
   useEffect(() => {
-    if (!organization || !repository) {
+    if (!owner || !repo) {
       navigate(URL.Main);
     }
-  }, [organization, repository]);
+  }, [owner, repo]);
 
   return (
     <Layout
       buttonName='목록'
       buttonOnClick={() => navigate(URL.Issues)}
-      title={`${organization}/${repository}`}
+      title={`${owner}/${repo}`}
       titleOnClick={() => navigate(URL.Issues)}
     >
       {status === STATUS.LOADING && !details ? (

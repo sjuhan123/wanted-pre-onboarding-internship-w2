@@ -10,8 +10,8 @@ const RepoContext = createContext<IRepoContext | undefined>(undefined);
 
 export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
   const [repoInfo, setRepoInfo] = useState<IRepoInfo>({
-    organization: '',
-    repository: '',
+    owner: '',
+    repo: '',
   });
 
   return (

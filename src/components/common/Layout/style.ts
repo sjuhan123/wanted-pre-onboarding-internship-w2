@@ -12,18 +12,35 @@ export const LayoutBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 1rem;
-    cursor: pointer;
+    height: 2rem;
+    width: 700px;
+    padding: 1rem;
+    margin: 3rem;
+    position: relative;
+
+    > button {
+      position: absolute;
+      left: 20px;
+      width: 50px;
+      height: 40px;
+      border: 1px solid #000000;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    > h1 {
+      font-size: 3rem;
+      margin: 0;
+      cursor: pointer;
+    }
   }
 
   main {
-    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    width: 100%;
+    width: 700px;
   }
 `;

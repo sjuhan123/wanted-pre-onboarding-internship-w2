@@ -1,20 +1,20 @@
 import React, { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as S from './style';
 
 interface LayoutProps {
-  header: string;
-  navigateTarget?: string;
+  buttonName?: string;
+  buttonOnClick?: () => void;
+  title: string;
+  titleOnClick?: () => void;
   children: ReactNode;
 }
 
-const Layout = ({ header, navigateTarget, children }: LayoutProps) => {
-  const navigate = useNavigate();
-
+const Layout = ({ buttonName, buttonOnClick, title, titleOnClick, children }: LayoutProps) => {
   return (
     <S.LayoutBox>
-      <header onClick={() => (!navigateTarget ? navigate('/') : navigate(`/${navigateTarget}`))}>
-        {header}
+      <header>
+        {buttonName && <button onClick={buttonOnClick}>{buttonName}</button>}
+        <h1 onClick={titleOnClick}>{title}</h1>
       </header>
       <main>{children}</main>
     </S.LayoutBox>

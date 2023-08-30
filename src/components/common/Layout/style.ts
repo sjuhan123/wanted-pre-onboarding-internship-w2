@@ -41,6 +41,7 @@ export const LayoutBox = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    height: 1000px;
     width: 700px;
   }
 `;

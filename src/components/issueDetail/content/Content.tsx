@@ -34,13 +34,15 @@ export default function Content({ details }: ContentProps) {
           </S.IssueInfoRight>
         </S.IssueInfo>
       </S.ContentHeader>
-      <ReactMarkdown
-        components={{
-          img: ({ node, ...props }) => <img style={{ maxWidth: '100%' }} {...props} alt='' />,
-        }}
-      >
-        {body}
-      </ReactMarkdown>
+      <S.ContentBody>
+        <ReactMarkdown
+          components={{
+            img: ({ node, ...props }) => <img style={{ maxWidth: '100%' }} {...props} alt='' />,
+          }}
+        >
+          {body}
+        </ReactMarkdown>
+      </S.ContentBody>
     </S.ContentBox>
   );
 }

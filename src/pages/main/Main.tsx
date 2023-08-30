@@ -12,7 +12,7 @@ import { STATUS, URL } from '../../constants';
 export default function Main() {
   const navigate = useNavigate();
   const { data, status, requestOctokit } = useOctokit<IRepoResponse>();
-  const { dispatch } = useRepoContext();
+  const { setRepoInfo } = useRepoContext();
   const [values, setValues] = useState({ organization: '', repository: '' });
 
   const setInputValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +41,7 @@ export default function Main() {
         repository: data.name,
       };
 
-      dispatch({ type: 'SET_REPO', payload: repoInfo });
+      setRepoInfo(repoInfo);
       navigate(URL.Issues);
     }
   }, [data, status]);

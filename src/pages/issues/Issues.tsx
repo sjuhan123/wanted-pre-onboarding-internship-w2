@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import IssueList from '../../components/issues/issueList/IssueList';
-import { URL } from '../../constants';
+import { STATUS, URL } from '../../constants';
 import { useIssueListContext } from '../../context/IssueListContext';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
@@ -29,7 +29,7 @@ export default function Issues() {
   );
 
   useEffect(() => {
-    if (data && status === 'success') {
+    if (data && status === STATUS.SUCCESS) {
       dispatch({ type: 'SET_ISSUE_LIST', payload: [...data] });
     }
   }, [data]);
@@ -47,7 +47,7 @@ export default function Issues() {
       title={`${organization}/${repository}`}
       titleOnClick={() => window.location.reload()}
     >
-      {status === 'loading' ? <Spinner type='page' /> : <IssueList />}
+      {status === STATUS.LOADING ? <Spinner type='page' /> : <IssueList />}
     </Layout>
   );
 }

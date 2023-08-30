@@ -7,7 +7,7 @@ import Spinner from '../../components/common/spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { useRepoContext } from '../../context/RepoContext';
 import { IRepoResponse } from '../../types/repo';
-import { URL } from '../../constants';
+import { STATUS, URL } from '../../constants';
 
 export default function Main() {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function Main() {
   };
 
   useEffect(() => {
-    if (data && status === 'success') {
+    if (data && status === STATUS.SUCCESS) {
       const repoInfo = {
         organization: data.owner.login,
         repository: data.name,
@@ -57,11 +57,11 @@ export default function Main() {
         />
         <input type='text' placeholder='repository' name='repository' onChange={setInputValue} />
         <Button
-          buttonContent={status === 'loading' ? <Spinner type='button' /> : '이슈 보러가기'}
+          buttonContent={status === STATUS.LOADING ? <Spinner type='button' /> : '이슈 보러가기'}
           type='primary'
           onClick={validateRepo}
         />
-        {status === 'error' && <S.AlertNotice>존재하지 않는 레포지토리입니다.</S.AlertNotice>}
+        {status === STATUS.ERROR && <S.AlertNotice>존재하지 않는 레포지토리입니다.</S.AlertNotice>}
       </S.MainBox>
     </Layout>
   );

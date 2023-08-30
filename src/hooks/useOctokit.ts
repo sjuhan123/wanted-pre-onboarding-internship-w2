@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
-import { ERROR_MESSAGE } from '../constants';
+import { ERROR_MESSAGE, STATUS } from '../constants';
 import { Octokit } from 'octokit';
 import { RequestParameters, OctokitResponse } from '@octokit/types';
 
-type status = 'idle' | 'loading' | 'error' | 'success';
+type status = keyof typeof STATUS;
 
 const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: boolean) => {
   const [data, setData] = useState<T>();
-  const [status, setStatus] = useState<status>('idle');
+  const [status, setStatus] = useState<status>(STATUS.IDLE);
 
   const oktokit = new Octokit({
     auth: process.env.REACT_APP_GITHUB_TOKEN,
@@ -26,7 +26,7 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
     try {
       if (!endpoint) return;
 
-      setStatus('loading');
+      setStatus(STATUS.LOADING);
 
       const res: OctokitResponse<T> = await oktokit.request(endpoint, body);
 
@@ -42,10 +42,10 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
       //   throw new Error(ERROR_MESSAGE.default);
       // }
 
-      setStatus('success');
+      setStatus(STATUS.SUCCESS);
     } catch (error) {
       if (error instanceof Error) {
-        setStatus('error');
+        setStatus(STATUS.ERROR);
       }
     }
   };

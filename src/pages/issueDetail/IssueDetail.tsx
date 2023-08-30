@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import Content from '../../components/issueDetail/content/Content';
-import { URL } from '../../constants';
+import { STATUS, URL } from '../../constants';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
 import { IIssueDetail } from '../../types/issueDetail';
@@ -40,7 +40,11 @@ export default function IssueDetail() {
       title={`${organization}/${repository}`}
       titleOnClick={() => navigate(URL.Issues)}
     >
-      {status === 'loading' && !details ? <Spinner type='page' /> : <Content details={details} />}
+      {status === STATUS.LOADING && !details ? (
+        <Spinner type='page' />
+      ) : (
+        <Content details={details} />
+      )}
     </Layout>
   );
 }

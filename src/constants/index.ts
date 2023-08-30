@@ -1,3 +1,10 @@
+export const STATUS = {
+  IDLE: 'IDLE',
+  LOADING: 'LOADING',
+  ERROR: 'ERROR',
+  SUCCESS: 'SUCCESS',
+} as const;
+
 export const URL = {
   Main: '/',
   Issues: '/issues',

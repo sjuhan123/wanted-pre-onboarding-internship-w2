@@ -6,10 +6,12 @@ import useOctokit from '../../hooks/useOctokit';
 import Spinner from '../../components/common/spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { useRepoContext } from '../../context/RepoContext';
+import { IRepoResponse } from '../../types/repo';
+import { URL } from '../../constants';
 
 export default function Main() {
   const navigate = useNavigate();
-  const { status, requestOctokit } = useOctokit();
+  const { data, status, requestOctokit } = useOctokit<IRepoResponse>();
   const { dispatch } = useRepoContext();
   const [values, setValues] = useState({ organization: '', repository: '' });
 
@@ -28,19 +30,24 @@ export default function Main() {
           'X-GitHub-Api-Version': '2022-11-28',
         },
       },
-      isGetData: false,
+      isGetData: true,
     });
   };
 
   useEffect(() => {
-    if (status === 'success') {
-      dispatch({ type: 'SET_REPO', payload: values });
-      navigate('/issues');
+    if (data && status === 'success') {
+      const repoInfo = {
+        organization: data.owner.login,
+        repository: data.name,
+      };
+
+      dispatch({ type: 'SET_REPO', payload: repoInfo });
+      navigate(URL.Issues);
     }
-  }, [status]);
+  }, [data, status]);
 
   return (
-    <Layout header='Issues'>
+    <Layout title='Issues'>
       <S.MainBox>
         <input
           type='text'
@@ -50,7 +57,7 @@ export default function Main() {
         />
         <input type='text' placeholder='repository' name='repository' onChange={setInputValue} />
         <Button
-          buttonContent={status === 'loading' ? <Spinner /> : '이슈들 보러가기'}
+          buttonContent={status === 'loading' ? <Spinner type='button' /> : '이슈 보러가기'}
           type='primary'
           onClick={validateRepo}
         />

@@ -2,11 +2,17 @@
 import { useEffect, useState } from 'react';
 import { ERROR_MESSAGE } from '../constants';
 import { Octokit } from 'octokit';
-import { RequestParameters } from '@octokit/types';
+import { RequestParameters, OctokitResponse } from '@octokit/types';
+
+type status = 'idle' | 'loading' | 'error' | 'success';
 
 const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: boolean) => {
   const [data, setData] = useState<T>();
-  const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle');
+  const [status, setStatus] = useState<status>('idle');
+
+  const oktokit = new Octokit({
+    auth: process.env.REACT_APP_GITHUB_TOKEN,
+  });
 
   const requestOctokit = async ({
     endpoint,
@@ -20,15 +26,12 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
     try {
       if (!endpoint) return;
 
-      const oktokit = new Octokit({
-        auth: process.env.REACT_APP_GITHUB_TOKEN,
-      });
-
       setStatus('loading');
 
-      const res = await oktokit.request(endpoint, body);
+      const res: OctokitResponse<T> = await oktokit.request(endpoint, body);
 
       if (isGetData) {
+        const { data } = res;
         setData(data);
       }
 
@@ -41,7 +44,7 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
 
       setStatus('success');
     } catch (error) {
-      if (error instanceof Error && status !== 'success') {
+      if (error instanceof Error) {
         setStatus('error');
       }
     }
@@ -49,7 +52,7 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
 
   useEffect(() => {
     requestOctokit({ endpoint, body, isGetData });
-  }, [endpoint, body]);
+  }, []);
 
   return { data, status, requestOctokit };
 };

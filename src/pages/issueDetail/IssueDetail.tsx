@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import Content from '../../components/issueDetail/content/Content';
+import NotFound from '../../components/notFound/NotFound';
 import { STATUS, URL } from '../../constants';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
@@ -15,7 +16,11 @@ export default function IssueDetail() {
     state: { owner, repo },
   } = useRepoContext();
 
-  const { data: details, status } = useOctokit<IIssueDetail>(
+  const {
+    data: details,
+    status,
+    errorMessage,
+  } = useOctokit<IIssueDetail>(
     `/repos/${owner}/${repo}/issues/${id}`,
     {
       owner: owner,
@@ -40,11 +45,9 @@ export default function IssueDetail() {
       title={`${owner}/${repo}`}
       titleOnClick={() => navigate(URL.Issues)}
     >
-      {status === STATUS.LOADING && !details ? (
-        <Spinner type='page' />
-      ) : (
-        <Content details={details} />
-      )}
+      {status === STATUS.LOADING && <Spinner type='page' />}
+      {status === STATUS.ERROR && <NotFound errorMessage={errorMessage} />}
+      {status === STATUS.SUCCESS && <Content details={details} />}
     </Layout>
   );
 }

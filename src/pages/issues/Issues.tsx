@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import IssueList from '../../components/issues/issueList/IssueList';
+import NotFound from '../../components/notFound/NotFound';
 import { ISSUE_LIST, STATUS, URL } from '../../constants';
 import { useIssueListContext } from '../../context/IssueListContext';
 import { useRepoContext } from '../../context/RepoContext';
@@ -16,7 +17,7 @@ export default function Issues() {
   } = useRepoContext();
   const { dispatch } = useIssueListContext();
 
-  const { data, status } = useOctokit<TIssueList>(
+  const { data, status, errorMessage } = useOctokit<TIssueList>(
     `/repos/${owner}/${repo}/issues?per_page=10&sort=comments`,
     {
       owner: owner,
@@ -47,7 +48,9 @@ export default function Issues() {
       title={`${owner}/${repo}`}
       titleOnClick={() => window.location.reload()}
     >
-      {status === STATUS.LOADING ? <Spinner type='page' /> : <IssueList />}
+      {status === STATUS.LOADING && <Spinner type='page' />}
+      {status === STATUS.ERROR && <NotFound errorMessage={errorMessage} />}
+      {status === STATUS.SUCCESS && <IssueList />}
     </Layout>
   );
 }

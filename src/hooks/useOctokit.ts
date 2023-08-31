@@ -9,6 +9,7 @@ type status = keyof typeof STATUS;
 const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: boolean) => {
   const [data, setData] = useState<T>();
   const [status, setStatus] = useState<status>(STATUS.IDLE);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const oktokit = new Octokit({
     auth: process.env.REACT_APP_GITHUB_TOKEN,
@@ -35,17 +36,20 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
         setData(data);
       }
 
-      if (res.status === 400) throw new Error(ERROR_MESSAGE[400]);
-      if (res.status === 404) throw new Error(ERROR_MESSAGE[404]);
-
-      // if (!res.ok) {
-      //   throw new Error(ERROR_MESSAGE.default);
-      // }
-
       setStatus(STATUS.SUCCESS);
     } catch (error) {
+      setStatus(STATUS.ERROR);
       if (error instanceof Error) {
-        setStatus(STATUS.ERROR);
+        if (error.message === 'Not Found') {
+          setStatus(STATUS.ERROR);
+          setErrorMessage(ERROR_MESSAGE.USER[404]);
+          console.error(ERROR_MESSAGE.DEV[404]);
+        }
+        if (error.message === 'Unprocessable Entity') {
+          setStatus(STATUS.ERROR);
+          setErrorMessage(ERROR_MESSAGE.USER[422]);
+          console.error(ERROR_MESSAGE.DEV[422]);
+        }
       }
     }
   };
@@ -54,7 +58,7 @@ const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: 
     requestOctokit({ endpoint, body, isGetData });
   }, []);
 
-  return { data, status, requestOctokit };
+  return { data, status, errorMessage, requestOctokit };
 };
 
 export default useOctokit;

@@ -36,12 +36,10 @@ export default function Main() {
 
   useEffect(() => {
     if (data && status === STATUS.SUCCESS) {
-      const repoInfo = {
+      setRepoInfo({
         owner: data.owner.login,
         repo: data.name,
-      };
-
-      setRepoInfo(repoInfo);
+      });
       navigate(URL.Issues);
     }
   }, [data, status]);

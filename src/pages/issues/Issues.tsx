@@ -20,7 +20,7 @@ export default function Issues() {
   } = useRepoContext();
   const [issueList, setIssueList] = useState<IissueList>([]);
   const [page, setPage] = useState(1);
-  console.log(issueList);
+
   const { data, status, errorMessage, requestOctokit } = useOctokit<IissueList>(() =>
     getRepoIssueList(owner, repo, page),
   );

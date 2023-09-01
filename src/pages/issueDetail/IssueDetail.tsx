@@ -4,7 +4,7 @@ import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import Content from '../../components/issueDetail/content/Content';
 import NotFound from '../../components/notFound/NotFound';
-import { STATUS, URL } from '../../constants';
+import { STATUS, PATH } from '../../constants';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
 import { IIssueDetail } from '../../types/issueDetail';
@@ -34,16 +34,16 @@ export default function IssueDetail() {
 
   useEffect(() => {
     if (!owner || !repo) {
-      navigate(URL.Main);
+      navigate(PATH.MAIN);
     }
   }, [owner, repo]);
 
   return (
     <Layout
       buttonName='목록'
-      buttonOnClick={() => navigate(URL.Issues)}
+      buttonOnClick={() => navigate(PATH.ISSUES)}
       title={`${owner}/${repo}`}
-      titleOnClick={() => navigate(URL.Issues)}
+      titleOnClick={() => navigate(PATH.ISSUES)}
     >
       {status === STATUS.LOADING && <Spinner type='page' />}
       {status === STATUS.ERROR && <NotFound errorMessage={errorMessage} />}

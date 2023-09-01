@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { URL } from './constants';
+import { PATH } from './constants';
 import { IssueListProvider } from './context/IssueListContext';
 import { RepoProvider } from './context/RepoContext';
 import IssueDetail from './pages/issueDetail/IssueDetail';
@@ -12,16 +12,16 @@ function App() {
     <RepoProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={URL.Main} element={<Main />} />
+          <Route path={PATH.MAIN} element={<Main />} />
           <Route
-            path={URL.Issues}
+            path={PATH.ISSUES}
             element={
               <IssueListProvider>
                 <Issues />
               </IssueListProvider>
             }
           />
-          <Route path={URL.IssueDetail} element={<IssueDetail />} />
+          <Route path={PATH.ISSUE_DETAIL} element={<IssueDetail />} />
         </Routes>
       </BrowserRouter>
     </RepoProvider>

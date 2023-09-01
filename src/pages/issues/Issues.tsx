@@ -4,7 +4,7 @@ import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import IssueList from '../../components/issues/issueList/IssueList';
 import NotFound from '../../components/notFound/NotFound';
-import { ISSUE_LIST, STATUS, URL } from '../../constants';
+import { ISSUE_LIST, STATUS, PATH } from '../../constants';
 import { useIssueListContext } from '../../context/IssueListContext';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
@@ -37,14 +37,14 @@ export default function Issues() {
 
   useEffect(() => {
     if (!owner || !repo) {
-      navigate(URL.Main);
+      navigate(PATH.MAIN);
     }
   }, [owner, repo]);
 
   return (
     <Layout
       buttonName='홈'
-      buttonOnClick={() => navigate(URL.Main)}
+      buttonOnClick={() => navigate(PATH.MAIN)}
       title={`${owner}/${repo}`}
       titleOnClick={() => window.location.reload()}
     >

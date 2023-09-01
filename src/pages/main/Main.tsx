@@ -7,7 +7,7 @@ import Spinner from '../../components/common/spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { useRepoContext } from '../../context/RepoContext';
 import { IRepoResponse } from '../../types/repo';
-import { STATUS, URL } from '../../constants';
+import { STATUS, PATH } from '../../constants';
 
 export default function Main() {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function Main() {
         owner: data.owner.login,
         repo: data.name,
       });
-      navigate(URL.Issues);
+      navigate(PATH.ISSUES);
     }
   }, [data, status]);
 

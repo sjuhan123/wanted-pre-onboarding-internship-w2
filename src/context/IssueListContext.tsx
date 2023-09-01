@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import { ISSUE_LIST } from '../constants';
-import { IIssue, TIssueList } from '../types/issue';
+import { TIssueList } from '../types/issue';
 
 interface IssueListContext {
   state: TIssueList;

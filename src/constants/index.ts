@@ -11,10 +11,10 @@ export const STATUS = {
   SUCCESS: 'SUCCESS',
 } as const;
 
-export const URL = {
-  Main: '/',
-  Issues: '/issues',
-  IssueDetail: '/issues/:id',
+export const PATH = {
+  MAIN: '/',
+  ISSUES: '/issues',
+  ISSUE_DETAIL: '/issues/:id',
 } as const;
 
 export const ERROR_MESSAGE = {

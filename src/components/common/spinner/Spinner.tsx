@@ -1,12 +1,24 @@
 import React from 'react';
 import * as S from './style';
 
-export default function Spinner({ type }: S.SpinnerProps) {
-  return type === 'page' ? (
-    <S.SpinnerBox>
-      <S.Spinner type={type} />
-    </S.SpinnerBox>
-  ) : (
-    <S.Spinner type={type} />
-  );
+export interface SpinnerProps {
+  type: 'button' | 'page';
 }
+
+const Spinner = ({ type }: SpinnerProps) => {
+  if (type === 'page') {
+    return (
+      <S.SpinnerPageBox type={type}>
+        <S.SpinnerComp type={type} />
+      </S.SpinnerPageBox>
+    );
+  } else {
+    return (
+      <S.SpinnerButtonBox type={type}>
+        <S.SpinnerComp type={type} />
+      </S.SpinnerButtonBox>
+    );
+  }
+};
+
+export default Spinner;

@@ -26,7 +26,7 @@ export default function Issues() {
     if (data && status === STATUS.SUCCESS) {
       dispatch({ type: ISSUE_LIST.SET, payload: [...data] });
     }
-  }, [data]);
+  }, [data, status]);
 
   useEffect(() => {
     if (!owner || !repo) {

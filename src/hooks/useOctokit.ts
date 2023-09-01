@@ -30,6 +30,7 @@ const useOctokit = <R>(callback?: () => Promise<OctokitResponse<R>>) => {
 
         setStatus(STATUS.SUCCESS);
       } catch (error) {
+        setStatus(STATUS.ERROR);
         if (error instanceof RequestError) {
           if (error.status === 404 || error.status === 422) {
             setErrorMessage(ERROR_MESSAGE.USER[error.status]);

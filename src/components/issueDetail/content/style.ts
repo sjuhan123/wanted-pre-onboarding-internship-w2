@@ -3,15 +3,18 @@ import styled from 'styled-components';
 export const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const ContentHeader = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 1rem;
   border-bottom: 1px solid #e1e4e8;
   margin-bottom: 2rem;
+  width: 50%;
+  gap: 20px;
 `;
 
 export const UserImage = styled.img`
@@ -25,6 +28,7 @@ export const IssueInfo = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-grow: 1;
 `;
 
 export const IssueInfoLeft = styled.div`

@@ -27,7 +27,7 @@ const IssueList = () => {
                 comments={comments}
                 onClick={() => redirectIssueDetail(number)}
               />
-              {(index + 1) % 5 === 0 && <AdImage />}
+              {(index + 1) % 4 === 0 && <AdImage />}
             </React.Fragment>
           );
         })}

@@ -4,7 +4,7 @@ import * as S from './style';
 interface IssueItemProps {
   number: number;
   title: string;
-  author: string;
+  user: string;
   createdAt: string;
   comments: number;
   onClick?: () => void;
@@ -13,7 +13,7 @@ interface IssueItemProps {
 export default function IssueItem({
   number,
   title,
-  author,
+  user,
   createdAt,
   comments,
   onClick,
@@ -26,7 +26,7 @@ export default function IssueItem({
           <S.IssueItemTitle>{title}</S.IssueItemTitle>
         </div>
         <div>
-          <S.IssueItemAuthor>작성자: {author},</S.IssueItemAuthor>
+          <S.IssueItemAuthor>작성자: {user},</S.IssueItemAuthor>
           <S.IssueItemCreatedAt>작성일: {createdAt}</S.IssueItemCreatedAt>
         </div>
       </S.IssueItemLeft>

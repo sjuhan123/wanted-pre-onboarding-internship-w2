@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
 import { useCallback, useEffect, useState } from 'react';
 import { ERROR_MESSAGE, STATUS } from '../constants';
-import {} from 'octokit';
 import { OctokitResponse } from '@octokit/types';
+import { RequestError } from '@octokit/request-error';
 
 type status = keyof typeof STATUS;
 
@@ -31,18 +30,15 @@ const useOctokit = <R>(callback?: () => Promise<OctokitResponse<R>>) => {
 
         setStatus(STATUS.SUCCESS);
       } catch (error) {
-        setStatus(STATUS.ERROR);
-        if (error instanceof Error) {
-          if (error.message === 'Not Found') {
-            setStatus(STATUS.ERROR);
-            setErrorMessage(ERROR_MESSAGE.USER[404]);
-            console.error(ERROR_MESSAGE.DEV[404]);
+        if (error instanceof RequestError) {
+          if (error.status === 404 || error.status === 422) {
+            setErrorMessage(ERROR_MESSAGE.USER[error.status]);
+            console.error(ERROR_MESSAGE.DEV[error.status]);
           }
-          if (error.message === 'Unprocessable Entity') {
-            setStatus(STATUS.ERROR);
-            setErrorMessage(ERROR_MESSAGE.USER[422]);
-            console.error(ERROR_MESSAGE.DEV[422]);
-          }
+        } else {
+          // 500 에러 혹은 알 수 없는 에러
+          setErrorMessage(ERROR_MESSAGE.USER.default);
+          console.error(ERROR_MESSAGE.DEV.default);
         }
       }
     },

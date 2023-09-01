@@ -1,19 +1,11 @@
 import styled from 'styled-components';
 
 export const LayoutBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  width: 100vw;
-
   header {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 2rem;
-    width: 700px;
     padding: 1rem;
     margin: 3rem;
     position: relative;
@@ -34,14 +26,5 @@ export const LayoutBox = styled.div`
       margin: 0;
       cursor: pointer;
     }
-  }
-
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    height: 1000px;
-    width: 700px;
   }
 `;

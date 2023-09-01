@@ -16,7 +16,7 @@ const Layout = ({ buttonName, buttonOnClick, title, titleOnClick, children }: La
         {buttonName && <button onClick={buttonOnClick}>{buttonName}</button>}
         <h1 onClick={titleOnClick}>{title}</h1>
       </header>
-      <main>{children}</main>
+      {children}
     </S.LayoutBox>
   );
 };

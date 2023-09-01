@@ -6,12 +6,13 @@ import useOctokit from '../../hooks/useOctokit';
 import Spinner from '../../components/common/spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { useRepoContext } from '../../context/RepoContext';
-import { IRepoResponse } from '../../types/repo';
+import { IrepoResponse } from '../../types/index';
 import { STATUS, PATH } from '../../constants';
+import { getRepo } from '../../apis/requests';
 
 export default function Main() {
   const navigate = useNavigate();
-  const { data, status, requestOctokit } = useOctokit<IRepoResponse>();
+  const { data, status, requestOctokit } = useOctokit<IrepoResponse>();
   const { setRepoInfo } = useRepoContext();
   const [values, setValues] = useState({ owner: '', repo: '' });
 
@@ -22,15 +23,7 @@ export default function Main() {
 
   const validateRepo = () => {
     requestOctokit({
-      endpoint: `GET /repos/${values.owner}/${values.repo}`,
-      body: {
-        owner: values.owner,
-        repo: values.repo,
-        headers: {
-          'X-GitHub-Api-Version': '2022-11-28',
-        },
-      },
-      isGetData: true,
+      callback: () => getRepo(values.owner, values.repo),
     });
   };
 

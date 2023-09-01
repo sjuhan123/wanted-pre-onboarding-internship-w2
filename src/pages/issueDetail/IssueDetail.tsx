@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getIssueDetail } from '../../apis/requests';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import Content from '../../components/issueDetail/content/Content';
@@ -7,7 +8,7 @@ import NotFound from '../../components/notFound/NotFound';
 import { STATUS, PATH } from '../../constants';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
-import { IIssueDetail } from '../../types/issueDetail';
+import { IissueDetail } from '../../types/index';
 
 export default function IssueDetail() {
   const navigate = useNavigate();
@@ -20,17 +21,7 @@ export default function IssueDetail() {
     data: details,
     status,
     errorMessage,
-  } = useOctokit<IIssueDetail>(
-    `/repos/${owner}/${repo}/issues/${id}`,
-    {
-      owner: owner,
-      repo: repo,
-      headers: {
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    },
-    true,
-  );
+  } = useOctokit<IissueDetail>(() => getIssueDetail(owner, repo, Number(id)));
 
   useEffect(() => {
     if (!owner || !repo) {

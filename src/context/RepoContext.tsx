@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useState } from 'react';
-import { IRepoInfo } from '../types';
+import { IrepoInfo } from '../types/index';
 
 interface IRepoContext {
-  state: IRepoInfo;
-  setRepoInfo: React.Dispatch<React.SetStateAction<IRepoInfo>>;
+  state: IrepoInfo;
+  setRepoInfo: React.Dispatch<React.SetStateAction<IrepoInfo>>;
 }
 
 const RepoContext = createContext<IRepoContext | undefined>(undefined);
 
 export const RepoProvider = ({ children }: { children: React.ReactNode }) => {
-  const [repoInfo, setRepoInfo] = useState<IRepoInfo>({
+  const [repoInfo, setRepoInfo] = useState<IrepoInfo>({
     owner: '',
     repo: '',
   });

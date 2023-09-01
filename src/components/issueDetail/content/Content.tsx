@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { IIssueDetail } from '../../../types/issueDetail';
+import { IissueDetail } from '../../../types/index';
 import * as S from './style';
 
 interface ContentProps {
-  details?: IIssueDetail;
+  details?: IissueDetail;
 }
 
 export default function Content({ details }: ContentProps) {

@@ -1,61 +1,56 @@
 /* eslint-disable no-undef */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ERROR_MESSAGE, STATUS } from '../constants';
-import { Octokit } from 'octokit';
-import { RequestParameters, OctokitResponse } from '@octokit/types';
+import {} from 'octokit';
+import { OctokitResponse } from '@octokit/types';
 
 type status = keyof typeof STATUS;
 
-const useOctokit = <T>(endpoint?: string, body?: RequestParameters, isGetData?: boolean) => {
-  const [data, setData] = useState<T>();
+interface Icallback<R> {
+  callback?: () => Promise<OctokitResponse<R>>;
+}
+
+const useOctokit = <R>(callback?: () => Promise<OctokitResponse<R>>) => {
+  const [data, setData] = useState<R>();
   const [status, setStatus] = useState<status>(STATUS.IDLE);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const oktokit = new Octokit({
-    auth: process.env.REACT_APP_GITHUB_TOKEN,
-  });
+  const requestOctokit = useCallback(
+    async ({ callback }: Icallback<R>) => {
+      try {
+        if (!callback) return;
 
-  const requestOctokit = async ({
-    endpoint,
-    body,
-    isGetData,
-  }: {
-    endpoint?: string;
-    body?: RequestParameters;
-    isGetData?: boolean;
-  }) => {
-    try {
-      if (!endpoint) return;
+        setStatus(STATUS.LOADING);
 
-      setStatus(STATUS.LOADING);
+        const res = await callback();
 
-      const res: OctokitResponse<T> = await oktokit.request(endpoint, body);
-
-      if (isGetData) {
-        const { data } = res;
-        setData(data);
-      }
-
-      setStatus(STATUS.SUCCESS);
-    } catch (error) {
-      setStatus(STATUS.ERROR);
-      if (error instanceof Error) {
-        if (error.message === 'Not Found') {
-          setStatus(STATUS.ERROR);
-          setErrorMessage(ERROR_MESSAGE.USER[404]);
-          console.error(ERROR_MESSAGE.DEV[404]);
+        if (res.data) {
+          const { data } = res;
+          setData(data);
         }
-        if (error.message === 'Unprocessable Entity') {
-          setStatus(STATUS.ERROR);
-          setErrorMessage(ERROR_MESSAGE.USER[422]);
-          console.error(ERROR_MESSAGE.DEV[422]);
+
+        setStatus(STATUS.SUCCESS);
+      } catch (error) {
+        setStatus(STATUS.ERROR);
+        if (error instanceof Error) {
+          if (error.message === 'Not Found') {
+            setStatus(STATUS.ERROR);
+            setErrorMessage(ERROR_MESSAGE.USER[404]);
+            console.error(ERROR_MESSAGE.DEV[404]);
+          }
+          if (error.message === 'Unprocessable Entity') {
+            setStatus(STATUS.ERROR);
+            setErrorMessage(ERROR_MESSAGE.USER[422]);
+            console.error(ERROR_MESSAGE.DEV[422]);
+          }
         }
       }
-    }
-  };
+    },
+    [callback],
+  );
 
   useEffect(() => {
-    requestOctokit({ endpoint, body, isGetData });
+    requestOctokit({ callback });
   }, []);
 
   return { data, status, errorMessage, requestOctokit };

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getRepoIssueList } from '../../apis/requests';
 import Layout from '../../components/common/Layout/Layout';
 import Spinner from '../../components/common/spinner/Spinner';
 import IssueList from '../../components/issues/issueList/IssueList';
@@ -8,7 +9,7 @@ import { ISSUE_LIST, STATUS, PATH } from '../../constants';
 import { useIssueListContext } from '../../context/IssueListContext';
 import { useRepoContext } from '../../context/RepoContext';
 import useOctokit from '../../hooks/useOctokit';
-import { TIssueList } from '../../types/issue';
+import { IissueList } from '../../types/index';
 
 export default function Issues() {
   const navigate = useNavigate();
@@ -17,16 +18,8 @@ export default function Issues() {
   } = useRepoContext();
   const { dispatch } = useIssueListContext();
 
-  const { data, status, errorMessage } = useOctokit<TIssueList>(
-    `/repos/${owner}/${repo}/issues?per_page=10&sort=comments`,
-    {
-      owner: owner,
-      repo: repo,
-      headers: {
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    },
-    true,
+  const { data, status, errorMessage } = useOctokit<IissueList>(() =>
+    getRepoIssueList(owner, repo, 1),
   );
 
   useEffect(() => {

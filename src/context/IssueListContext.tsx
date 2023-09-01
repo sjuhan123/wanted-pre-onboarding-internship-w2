@@ -1,20 +1,20 @@
 import React, { createContext, useReducer } from 'react';
 import { ISSUE_LIST } from '../constants';
-import { TIssueList } from '../types/issue';
+import { IissueList } from '../types/index';
 
 interface IssueListContext {
-  state: TIssueList;
+  state: IissueList;
   dispatch: React.Dispatch<IssueListAction>;
 }
 
 const IssueListContext = createContext<IssueListContext | undefined>(undefined);
 
 type IssueListAction =
-  | { type: typeof ISSUE_LIST.SET; payload: TIssueList }
-  | { type: typeof ISSUE_LIST.ADD; payload: TIssueList }
+  | { type: typeof ISSUE_LIST.SET; payload: IissueList }
+  | { type: typeof ISSUE_LIST.ADD; payload: IissueList }
   | { type: typeof ISSUE_LIST.RESET };
 
-const IssueListReducer = (state: TIssueList, action: IssueListAction): TIssueList => {
+const IssueListReducer = (state: IissueList, action: IssueListAction): IissueList => {
   switch (action.type) {
     case ISSUE_LIST.SET:
       return action.payload;
@@ -27,7 +27,7 @@ const IssueListReducer = (state: TIssueList, action: IssueListAction): TIssueLis
   }
 };
 
-const initialState: TIssueList = [];
+const initialState: IissueList = [];
 
 export const IssueListProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(IssueListReducer, initialState);

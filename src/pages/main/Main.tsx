@@ -38,7 +38,7 @@ export default function Main() {
   }, [data, status]);
 
   return (
-    <Layout title='Issues'>
+    <Layout title='Issues' titleOnClick={() => window.location.reload()}>
       <S.MainBox>
         <input type='text' placeholder='organization' name='owner' onChange={setInputValue} />
         <input type='text' placeholder='repository' name='repo' onChange={setInputValue} />

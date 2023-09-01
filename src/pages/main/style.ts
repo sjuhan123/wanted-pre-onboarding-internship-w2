@@ -10,8 +10,8 @@ export const MainBox = styled.div`
   width: 100%;
 
   > input {
-    width: 20%;
-    height: 1rem;
+    width: 300px;
+    height: 20px;
     padding: 0.5rem;
     border: 1px solid #000000;
     border-radius: 0.5rem;
@@ -19,8 +19,8 @@ export const MainBox = styled.div`
   }
 
   > button {
-    width: 20%;
-    height: 2rem;
+    width: 200px;
+    height: 40px;
     border-radius: 0.5rem;
     font-size: 1rem;
     cursor: pointer;
